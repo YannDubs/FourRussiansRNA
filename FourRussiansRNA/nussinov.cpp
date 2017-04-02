@@ -39,8 +39,43 @@ int foldScore(int i, int j, const string &seq, vvi &matrix) {
     return matrix[i][j];
 }
 
+int foldScoreIterative(const string &seq, vvi &matrix) {
+    int n = int(seq.size());
+    for (int j = 0; j < n; j++){
+         for (int i = n; i >= 0; i--) {
+             if (j - i > -1) {
+                 if (j - i <= 0) {
+                     matrix[i][j] = 0;
+                 } else {
+                     matrix[i][j] = max(max(
+                                            matrix[i+1][j],
+                                            matrix[i][j-1]),
+                                        matrix[i+1][j-1]+B(seq[i], seq[j]));
+                     for (int k = i + 1; k < j; k++) {
+                         matrix[i][j] = max(
+                                            matrix[i][j],
+                                            matrix[i][k]+matrix[k+1][j]);
+                     }
+                 }
+             }
+        }
+    }
+    
+    return matrix[0][n-1];
+}
+
 void nussinovScore(const string& x) {
     size_t n (x.size());
-    vvi matrix(n, vi(n));
-    cout << foldScore(0, int(n)-1, x, matrix) << endl;
+    vvi matrix(n, vi(n, -1));
+    clock_t start;
+    start = clock();
+    int score = foldScore(0, int(n-1), x, matrix);
+    cout << "Nussinov Recursive Time: " << (clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << endl;
+    cout << score << endl;
+    
+    start = clock();
+    int iterScore = foldScoreIterative(x, matrix);
+    cout << "Nussinov Iterative Time: " << (clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << endl;
+    cout << iterScore << endl;
+    
 }
