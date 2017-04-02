@@ -32,41 +32,41 @@ int b(char a, char b){
 }
 
 // preprocessing helper
-int maxVal(ull x, ull y, int q) {
-  int max = 0, sum1 = 0, sum2 = 0;
-  for (int k = 0; k < q; k++) {
-    if ((x & (1 << k)) != 0) sum1 = sum1 + 1;
-    if ((y & (1 << k)) != 0) sum2 = sum2 - 1;
-    if (sum1 + sum2 > max) max = sum1 + sum2;
-  }
-  return max;
+int maxVal(ull x, ull y, const size_t q) {
+    int max = 0, sum1 = 0, sum2 = 0;
+    for (int k = 0; k < q; k++) {
+        if ((x & (1 << k)) != 0) sum1 = sum1 + 1;
+        if ((y & (1 << k)) != 0) sum2 = sum2 - 1;
+        if (sum1 + sum2 > max) max = sum1 + sum2;
+    }
+    return max;
 }
 
 //Four russians running
-void nussimovFourRussioans(const string& x){
+void nussinovFourRussians(const string& x){
     // INITIALIZATION
     size_t n (x.size());
     vector<vector<double>> D (n,vector<double> (n));
     const size_t q (round(log(n)));
     //Index
     //vector<vector<size_t>> Index (m,vector<size_t> (n));
-
+    
     // preprocessing step for table R
     size_t qsq = pow(2, q);
     vvi R(qsq, vi(qsq));
     for (ull x = 0; x < (1 << q); ++x) {
-      for (ull y = 0; y < (1 << q); ++y) {
-        // x and y are horizontal and vertical difference bit vectors
-        // represented by unsigned long longs
-        R[x][y] = maxVal(x, y, q);
-        // cout << R[x][y] << " " << x << " " << y << endl;
-      }
+        for (ull y = 0; y < (1 << q); ++y) {
+            // x and y are horizontal and vertical difference bit vectors
+            // represented by unsigned long longs
+            R[x][y] = maxVal(x, y, q);
+            // cout << R[x][y] << " " << x << " " << y << endl;
+        }
     }
-
+    
     int max_q = int(ceil(n/q))+1;
     vvu hvs(n, vu(max_q)); // horizontal diff vector store
     vvu vvs(n, vu(max_q)); // vertical diff vector store
-
+    
     // ITERATION
     for (size_t j(0); j < n; ++j){
         for (size_t i(j-1); i <= 0; --i){
@@ -99,34 +99,37 @@ void nussimovFourRussioans(const string& x){
                 size_t t(l);
                 D[i][j] = max(D[i][j],D[i][l] + D[t][j] + R[hvs[i][K]][vvs[j][K]]);
             }
-
+            
             // compute the vertical difference vector
             if (i % q == 1) {
-              // compute and store the v¯ vector i/qth group for column j
-              ull vdiff = 0; size_t c = q-2;
-              for (size_t k(i); k < i+q-1; ++k) {
-                if (D[k-1][j] - D[k][j] == 1) {
-                  vdiff = (vdiff | (1 << c));
+                // compute and store the v¯ vector i/qth group for column j
+                ull vdiff = 0; size_t c = q-2;
+                for (size_t k(i); k < i+q-1; ++k) {
+                    if (D[k-1][j] - D[k][j] == 1) {
+                        vdiff = (vdiff | (1 << c));
+                    }
+                    c--;
                 }
-                c--;
-              }
-              vvs[j][groupI] = vdiff; // i/qth group for column j
+                vvs[j][groupI] = vdiff; // i/qth group for column j
             }
-
+            
             // compute the horizontal difference vector
             if (j % q == q - 1) {
-              // compute and store the v vector (j − 1)/qth group for row i
-              ull hdiff = 0; size_t c = q-2;
-              for (size_t k(j+1-q); k <= j; ++k) {
-                if (D[i][k+1] - D[i][k] == 1) {
-                  hdiff = (hdiff | (1 << c));
+                // compute and store the v vector (j − 1)/qth group for row i
+                ull hdiff = 0; size_t c = q-2;
+                for (size_t k(j+1-q); k <= j; ++k) {
+                    if (D[i][k+1] - D[i][k] == 1) {
+                        hdiff = (hdiff | (1 << c));
+                    }
+                    c--;
                 }
-                c--;
-              }
-              hvs[i][groupJ] = hdiff; // (j − 1)/qth group for row i
+                hvs[i][groupJ] = hdiff; // (j − 1)/qth group for row i
             }
         }
     }
+    
+    cout << D[n][n] << endl;
+    cout << D[n-1][n-1] << endl;
     
     //TRACEBACK
     
@@ -153,14 +156,14 @@ string LoadSeq(string file){
  size_t groupRow ((j+1)/q);
  // the -1 shifts j so that j = 0 is in group 1 (we use groups in base 1)
  size_t groupColumn ((i+1)/q + 1);
- 
- 
- 
+
+
+
  // the matrix is diagonal so groupI doesn't start always from the same position but from
  // the diagonal
  size_t groupHorizontal (groupRow - groupColumn + 1);
  size_t groupVertical (groupColumn);
- 
+
  // minus 1 is to put back in 0 index. + q at the end i to get right most entry
  size_t iI (q*groupRow -1 + q);
  size_t jJ (q*groupRow -1 );
