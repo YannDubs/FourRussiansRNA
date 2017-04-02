@@ -67,15 +67,5 @@ int foldScoreIterative(const string &seq, vvi &matrix) {
 void nussinovScore(const string& x) {
     size_t n (x.size());
     vvi matrix(n, vi(n, -1));
-    clock_t start;
-    start = clock();
-    int score = foldScore(0, int(n-1), x, matrix);
-    cout << "Nussinov Recursive Time: " << (clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << endl;
-    cout << score << endl;
-    
-    start = clock();
-    int iterScore = foldScoreIterative(x, matrix);
-    cout << "Nussinov Iterative Time: " << (clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << endl;
-    cout << iterScore << endl;
-    
+    cout << foldScoreIterative(x, matrix) << endl;
 }
