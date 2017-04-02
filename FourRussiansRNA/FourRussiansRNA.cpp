@@ -20,6 +20,7 @@ const string folder("/Users/yanndubois/Desktop/GitHub/FourRussiansRNA/Data/");
 int scoreB(char a, char b){
     // returns 1 if match 0 else
     if ((a == 'a' && b == 'u') || (a == 'u' && b == 'a') || (a == 'c' && b == 'g') || (b == 'c' && a == 'g')){
+        //cout << " return " << 1 << endl;
         return 1;
     }
     return 0;
@@ -42,6 +43,7 @@ void nussinovFourRussians(const string& x){
     size_t n (x.size());
     vector<vector<double>> D (n,vector<double> (n));
     const size_t q (round(log(n)));
+    //cout << " q " << q << endl;
     //Index
     //vector<vector<size_t>> Index (m,vector<size_t> (n));
     
@@ -61,31 +63,53 @@ void nussinovFourRussians(const string& x){
     vvu hvs(n, vu(max_q)); // horizontal diff vector store
     vvu vvs(n, vu(max_q)); // vertical diff vector store
     
+    
     // ITERATION
     for (size_t j(0); j < n; ++j){
-        for (size_t i(j-1); i <= 0; --i){
+        //cout << " n " << n << endl;
+        //cout << " j " << j << endl;
+        for (long int i(j-1); i >= 0; --i){
+            //cout << " i " << i << endl;
+            //cout << " j " << j << endl;
             D[i][j] = scoreB(x[i],x[j]) + D[i+1][j-1];
+            if (j == n-4 && i == n-4){
+            cout << " score " <<D[i][j] << endl;
+            }
             size_t groupI ((i+1)/q);
             size_t groupJ ((j+1)/q);
             // the matrix is diagonal so groupI doesn't start always from the same position but from
             // the diagonal
-            size_t nGroupsBetween (groupJ - groupI - 1);
+            int nGroupsBetween (int(groupJ - groupI - 1));
             // + q to get right most. -1 to put back in 0 index
             size_t iI(q*groupI + q - 1);
             size_t jJ(q*groupJ - 1);
+            //cout << " Ii " << iI << endl;
             
+            //cout << "II" << endl;
             // for all cells in the first group
-            for (size_t k(i+1); i <= iI; ++k){
+            for (size_t k(i+1); k <= iI; ++k){
+                
+                //cout << " i " << i << " j " << j << " k " << k << endl;
                 D[i][j] = max (D[i][j], D[i][k-1] + D[k][j]);
             }
             
+            //cout << "JJ" << endl;
             //for all cells in last group
             for (size_t k(jJ); k <= j; ++k){
+                
+                //cout << " i " << i << " j " << j << " k " << k << endl;
                 D[i][j] = max (D[i][j], D[i][k-1] + D[k][j]);
             }
             
+            /*
+            cout << "I " << groupI << endl;
+            cout << "J " << groupJ << endl;
+            cout << "nGroup " << nGroupsBetween << endl;*/
             //for all groups in between
-            for (size_t K(0); K < nGroupsBetween; ++K){
+            for (int K(0); K < nGroupsBetween; ++K){
+                /*cout << "K " << K << endl;
+                cout << "nGroup " << nGroupsBetween << endl;
+                cout << "K<nGroup " << (K < nGroupsBetween) << endl;*/
                 // take right most element of group I, adds 1 to get left most of next
                 // then adds K*q to shift depedning on the block
                 size_t l(iI + 1 + K*q);
@@ -122,8 +146,8 @@ void nussinovFourRussians(const string& x){
         }
     }
     
-    cout << D[n][n] << endl;
-    cout << D[n-1][n-1] << endl;
+    //cout << D[n][n] << endl;
+    cout << D[0][n-1] << endl;
     
     //TRACEBACK
     
