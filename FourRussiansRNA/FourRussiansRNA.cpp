@@ -11,6 +11,12 @@
 #include <iostream>
 #include <math.h>
 
+typedef vector<int> vi;
+typedef vector<vi> vvi;
+typedef unsigned long long ull;
+typedef vector<ull> vu;
+typedef vector<vu> vvu;
+
 //CONSTANTS
 const string folder("/Users/yanndubois/Desktop/GitHub/FourRussiansRNA/Data/");
 
@@ -25,6 +31,17 @@ int b(char a, char b){
     return 0;
 }
 
+// preprocessing helper
+int maxVal(ull x, ull y, int q) {
+  int max = 0, sum1 = 0, sum2 = 0;
+  for (int k = 0; k < q; k++) {
+    if ((x & (1 << k)) != 0) sum1 = sum1 + 1;
+    if ((y & (1 << k)) != 0) sum2 = sum2 - 1;
+    if (sum1 + sum2 > max) max = sum1 + sum2;
+  }
+  return max;
+}
+
 //Four russians running
 void nussimovFourRussioans(const string& x){
     // INITIALIZATION
@@ -33,7 +50,23 @@ void nussimovFourRussioans(const string& x){
     const size_t q (round(log(n)));
     //Index
     //vector<vector<size_t>> Index (m,vector<size_t> (n));
-    
+
+    // preprocessing step for table R
+    size_t qsq = pow(2, q);
+    vvi R(qsq, vi(qsq));
+    for (ull x = 0; x < (1 << q); ++x) {
+      for (ull y = 0; y < (1 << q); ++y) {
+        // x and y are horizontal and vertical difference bit vectors
+        // represented by unsigned long longs
+        R[x][y] = maxVal(x, y, q);
+        // cout << R[x][y] << " " << x << " " << y << endl;
+      }
+    }
+
+    int max_q = int(ceil(n/q))+1;
+    vvu hvs(n, vu(max_q)); // horizontal diff vector store
+    vvu vvs(n, vu(max_q)); // vertical diff vector store
+
     // ITERATION
     for (size_t j(0); j < n; ++j){
         for (size_t i(j-1); i <= 0; --i){
@@ -64,7 +97,33 @@ void nussimovFourRussioans(const string& x){
                 size_t l(iI + 1 + K*q);
                 //not sure
                 size_t t(l);
-                D[i][j] = max(D[i][j],D[i][l] + D[t][j] + getR(hvstore(i,K),vvstore(j,K)));
+                D[i][j] = max(D[i][j],D[i][l] + D[t][j] + R[hvs[i][K]][vvs[j][K]]);
+            }
+
+            // compute the vertical difference vector
+            if (i % q == 1) {
+              // compute and store the v¯ vector i/qth group for column j
+              ull vdiff = 0; size_t c = 0;
+              for (size_t k(i); k < i+q-1; ++k) {
+                if (D[k-1][j] - D[k][j] == 1) {
+                  vdiff = (vdiff | (1 << c));
+                }
+                c++;
+              }
+              vvs[j][groupI] = vdiff; // i/qth group for column j
+            }
+
+            // compute the horizontal difference vector
+            if (j % q == q - 1) {
+              // compute and store the v vector (j − 1)/qth group for row i
+              ull hdiff = 0; size_t c = 0;
+              for (size_t k(j+1-q); k <= j; ++k) {
+                if (D[i][k+1] - D[i][k] == 1) {
+                  hdiff = (hdiff | (1 << c));
+                }
+                c++;
+              }
+              hvs[i][groupJ] = hdiff; // (j − 1)/qth group for row i
             }
         }
     }
@@ -105,4 +164,37 @@ string LoadSeq(string file){
  // minus 1 is to put back in 0 index. + q at the end i to get right most entry
  size_t iI (q*groupRow -1 + q);
  size_t jJ (q*groupRow -1 );
+ */
+
+/*
+ void bitsetTimingExperiment() {
+   int q = 12;
+   int qsq = pow(2, q);
+   vvi R(qsq, vi(qsq));
+   clock_t start;
+   start = clock();
+   for (int x = 0; x < (1 << q); ++x) {
+     for (int y = 0; y < (1 << q); ++y) {
+       bitset<12> xb(x); bitset<12> yb(y);
+       int max = 0, sum1 = 0, sum2 = 0;
+       for (int k = 0; k < q; k++) {
+         sum1 = sum1 + xb[k];
+         sum2 = sum2 - yb[k];
+         if (sum1 + sum2 > max) max = sum1 + sum2;
+       }
+       R[x][y] = max;
+     }
+   }
+   cout << "Time: " << (clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << endl;
+   //  Time: 4624.03 ms
+   start = clock();
+   for (int x = 0; x < (1 << q); ++x) {
+     for (int y = 0; y < (1 << q); ++y) {
+       R[x][y] = maxval(x, y, q);
+       // cout << R[x][y] << " " << x << " " << y << endl;
+     }
+   }
+   cout << "Time: " << (clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << endl;
+   // Time: 1427.21 ms
+ }
  */
