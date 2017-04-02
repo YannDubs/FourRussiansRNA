@@ -103,12 +103,12 @@ void nussimovFourRussioans(const string& x){
             // compute the vertical difference vector
             if (i % q == 1) {
               // compute and store the v¯ vector i/qth group for column j
-              ull vdiff = 0; size_t c = 0;
+              ull vdiff = 0; size_t c = q-2;
               for (size_t k(i); k < i+q-1; ++k) {
                 if (D[k-1][j] - D[k][j] == 1) {
                   vdiff = (vdiff | (1 << c));
                 }
-                c++;
+                c--;
               }
               vvs[j][groupI] = vdiff; // i/qth group for column j
             }
@@ -116,12 +116,12 @@ void nussimovFourRussioans(const string& x){
             // compute the horizontal difference vector
             if (j % q == q - 1) {
               // compute and store the v vector (j − 1)/qth group for row i
-              ull hdiff = 0; size_t c = 0;
+              ull hdiff = 0; size_t c = q-2;
               for (size_t k(j+1-q); k <= j; ++k) {
                 if (D[i][k+1] - D[i][k] == 1) {
                   hdiff = (hdiff | (1 << c));
                 }
-                c++;
+                c--;
               }
               hvs[i][groupJ] = hdiff; // (j − 1)/qth group for row i
             }
@@ -198,3 +198,77 @@ string LoadSeq(string file){
    // Time: 1427.21 ms
  }
  */
+
+/*
+void exampleBitComputationTest() {
+  int q = 5;
+  int n = 1000;
+  int max_q = int(ceil(n/q))+1;
+  vvu hvs(n, vu(max_q)); // horizontal diff vector store
+  vvu vvs(n, vu(max_q)); // vertical diff vector store
+
+  vector<vector<double>> D (n,vector<double> (n));
+
+  int i; int j;
+
+  j = 10;
+  // vertical difference
+  D[4][j] = 8;
+  D[5][j] = 8;
+  D[6][j] = 7;
+  D[7][j] = 6;
+  // binary output should be 0 1 1
+
+  i = 10;
+  // horizontal difference
+  D[i][8] = 5;
+  D[i][9] = 6;
+  D[i][10] = 7;
+  D[i][11] = 7;
+  // binary output should be 1 1 0
+
+  int groupI = 20;
+  int groupJ = 20;
+
+  i = 5; j = 10;
+  q = 4;
+  // compute the vertical difference vector
+  // i = 5. q = 4. 5 % 4 == 1
+  if (i % q == 1) {
+    // compute and store the v¯ vector i/qth group for column j
+    ull vdiff = 0; size_t c = q-2;
+    for (size_t k(i); k < i+q-1; ++k) {
+      if (D[k-1][j] - D[k][j] == 1) {
+        vdiff = (vdiff | (1 << c));
+      }
+      c--;
+    }
+    vvs[j][groupI] = vdiff; // i/qth group for column j
+    cout << vvs[j][groupI] << endl;
+    // 3 == 011
+    if (vvs[j][groupI] != 3) {
+      cout << "incorrect vertical bit vector computed" << endl;
+    }
+  }
+
+  i = 10; j = 11;
+
+  // compute the horizontal difference vector
+  if (j % q == q - 1) {
+    // compute and store the v vector (j − 1)/qth group for row i
+    ull hdiff = 0; size_t c = q-2;
+    for (size_t k(j+1-q); k <= j; ++k) {
+      if (D[i][k+1] - D[i][k] == 1) {
+        hdiff = (hdiff | (1 << c));
+      }
+      c--;
+    }
+    hvs[i][groupJ] = hdiff; // (j − 1)/qth group for row i
+    cout << hvs[i][groupJ] << endl;
+    // 6 == 110
+    if (hvs[i][groupJ] != 6) {
+      cout << "incorrect horizontal bit vector computed" << endl;
+    }
+  }
+}
+*/
