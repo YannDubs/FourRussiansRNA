@@ -11,12 +11,19 @@
 
 using namespace std;
 
+typedef unsigned long long ull;
+typedef vector<int> vi;
+typedef vector<vi> vvi;
+typedef vector<ull> vu;
+typedef vector<vu> vvu;
+
 #ifndef FourRussiansRNA_h
 #define FourRussiansRNA_h
 
 // scoring function
-int b(char a, char b);
+int scoreB(char a, char b);
 
 void nussinovFourRussians(const string& x);
 string LoadSeq(string file);
+int maxVal(ull x, ull y, const size_t q);
 #endif /* FourRussiansRNA_h */

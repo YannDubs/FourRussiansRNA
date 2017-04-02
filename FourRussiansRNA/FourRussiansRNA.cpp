@@ -11,19 +11,13 @@
 #include <iostream>
 #include <math.h>
 
-typedef vector<int> vi;
-typedef vector<vi> vvi;
-typedef unsigned long long ull;
-typedef vector<ull> vu;
-typedef vector<vu> vvu;
-
 //CONSTANTS
 const string folder("/Users/yanndubois/Desktop/GitHub/FourRussiansRNA/Data/");
 
 //CODE
 
 // scoring function
-int b(char a, char b){
+int scoreB(char a, char b){
     // returns 1 if match 0 else
     if ((a == 'a' && b == 'u') || (a == 'u' && b == 'a') || (a == 'c' && b == 'g') || (b == 'c' && a == 'g')){
         return 1;
@@ -70,7 +64,7 @@ void nussinovFourRussians(const string& x){
     // ITERATION
     for (size_t j(0); j < n; ++j){
         for (size_t i(j-1); i <= 0; --i){
-            D[i][j] = b(x[i],x[j]) + D[i+1][j-1];
+            D[i][j] = scoreB(x[i],x[j]) + D[i+1][j-1];
             size_t groupI ((i+1)/q);
             size_t groupJ ((j+1)/q);
             // the matrix is diagonal so groupI doesn't start always from the same position but from

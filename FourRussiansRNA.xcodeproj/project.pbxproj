@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C88476921E9031BB00CDB8CC /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C88476911E9031BB00CDB8CC /* main.cpp */; };
 		C884769A1E9033B300CDB8CC /* FourRussiansRNA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C88476991E9033B300CDB8CC /* FourRussiansRNA.cpp */; };
+		C884769D1E91A70200CDB8CC /* nussinov.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C884769B1E91A70200CDB8CC /* nussinov.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,8 @@
 		C88476911E9031BB00CDB8CC /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		C88476981E90339B00CDB8CC /* FourRussiansRNA.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FourRussiansRNA.hpp; sourceTree = "<group>"; };
 		C88476991E9033B300CDB8CC /* FourRussiansRNA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FourRussiansRNA.cpp; sourceTree = "<group>"; };
+		C884769B1E91A70200CDB8CC /* nussinov.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nussinov.cpp; sourceTree = "<group>"; };
+		C884769C1E91A70200CDB8CC /* nussinov.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = nussinov.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +63,8 @@
 		C88476901E9031BB00CDB8CC /* FourRussiansRNA */ = {
 			isa = PBXGroup;
 			children = (
+				C884769B1E91A70200CDB8CC /* nussinov.cpp */,
+				C884769C1E91A70200CDB8CC /* nussinov.hpp */,
 				C88476911E9031BB00CDB8CC /* main.cpp */,
 				C88476981E90339B00CDB8CC /* FourRussiansRNA.hpp */,
 				C88476991E9033B300CDB8CC /* FourRussiansRNA.cpp */,
@@ -124,6 +129,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C884769D1E91A70200CDB8CC /* nussinov.cpp in Sources */,
 				C88476921E9031BB00CDB8CC /* main.cpp in Sources */,
 				C884769A1E9033B300CDB8CC /* FourRussiansRNA.cpp in Sources */,
 			);
