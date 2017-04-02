@@ -17,9 +17,6 @@ using namespace std;
 // scoring function
 int b(char a, char b);
 
-void nussimovFourRussioans(const string& x);
+void nussinovFourRussians(const string& x);
 string LoadSeq(string file);
-unsigned int hvstore(size_t i,size_t K);
-unsigned int vvstore(size_t j,size_t K);
-unsigned int getR(int hv,int vvstore);
 #endif /* FourRussiansRNA_h */
