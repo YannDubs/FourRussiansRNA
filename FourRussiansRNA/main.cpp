@@ -24,20 +24,41 @@ void timerEnd(clock_t start, string context) {
     cout << context << (clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << endl;
 }
 
-
-int main(int argc, const char * argv[]) {
-// string x(LoadSeq("sequence.txt"));
-    // 994 bp
-//    string seq = "gcgaggcuagcgcuacccgugcgccugcguggaacgauucuguggcgagugccggccgaaagcuagguccggauugcacguggagggccgcccgaagggcacucucggacauuaacccgcauucuguaccauggggcgcaaguuggacccuacgaaggagaagcgggggccaggccgaaaggcccggaagcagaagggugccgagacagaacucgucagauucuugccugcaguaagugacgaaaauuccaagaggcugucuagucgugcucgaaagagggcagccaagaggagauugggcucuguugaagccccuaagacaaauaagucuccugaggccaaaccauugccuggaaagcuaccaaaaggagcuguccagacagcugguaagaagggaccccagucccuauuuaaugcuccucgaggcaagaagcgcccagcaccuggcagugaugaggaagaggaggaggaagacucugaagaagaugguauggugaaccacggggaccucuggggcuccgaggacgaugcugauacgguagaugacuauggagcugacuccaacucugaggaugaggaggaaggugaagcguugcugcccauugaaagagcugcucggaagcagaaggcccgggaagcugcugcugggauccaguggagugaagaggagaccgaggacgaggaggaagagaaagaagugaccccugagucaggccccccaaagguggaagaggcagaugggggccugcagaucaauguggaugaggaaccauuugugcugcccccugcuggggagauggagcaggaugcccaggcuccagaccugcaacgaguucacaagcggauccaggauauugugggaauucugcgugauuuuggggcucagcgggaggaagggcggucucguucugaauaccugaaccggcucaagaaggaucuggccauuuacuacuccuauggagacuuccugcuuggcaagcucauggaccucuuc";
-    string seq = "gcgagg";
-
+void compareNussinov(string seq) {
+    cout << "Seq: " << seq << endl;
+    
     clock_t clock = timerStart();
-    nussinovFourRussians(seq);
-    timerEnd(clock, "Nussinov Four Russians: ");
+    double frscore = nussinovFourRussians(seq);
+    timerEnd(clock, "Four Russians Time: ");
     
     clock = timerStart();
-    nussinovScore(seq);
+    double nscore = double(nussinovScore(seq));
     timerEnd(clock, "Nussinov Time: ");
+    
+    if (frscore != nscore) {
+        cout << "******* Score Mismatch!" << endl;
+    }
+}
+
+
+int main(int argc, const char * argv[]) {
+    // string x(LoadSeq("sequence.txt"));
+    // 994 bp
+    string seq = "gggccgcccgaagggcacucucggacauuaacccgcauucuguaccauggggcgagaagcgggggccaggccgaaaggcccggaagcagaagggugccggggcagccaagaggagauugggcucuguugaagccccuaagacaaauaagucuccugagguuccugcuuggcaagcucauggaccucuuc";
+    string seq0 = "gcgaggcuagcgcuacccgugcgccugcguggaacgauucuguggcgagugccggccgaaagcuagguccggauugcacguggagggccgcccgaagggcacucucggacauuaacccgcauucuguaccauggggcgcaaguuggacccuacgaaggagaagcgggggccaggccgaaaggcccggaagcagaagggugccgagacagaacucgucagauucuugccugcaguaagugacgaaaauuccaagaggcugucuagucgugcucgaaagagggcagccaagaggagauugggcucuguugaagccccuaagacaaauaagucuccugaggccaaaccauugccuggaaagcuaccaaaaggagcuguccagacagcugguaagaagggaccccagucccuauuuaaugcuccucgaggcaagaagcgcccagcaccuggcagugaugaggaagaggaggaggaagacucugaagaagaugguauggugaaccacggggaccucuggggcuccgaggacgaugcugauacgguagaugacuauggagcugacuccaacucugaggaugaggaggaaggugaagcguugcugcccauugaaagagcugcucggaagcagaaggcccgggaagcugcugcugggauccaguggagugaagaggagaccgaggacgaggaggaagagaaagaagugaccccugagucaggccccccaaagguggaagaggcagaugggggccugcagaucaauguggaugaggaaccauuugugcugcccccugcuggggagauggagcaggaugcccaggcuccagaccugcaacgaguucacaagcggauccaggauauugugggaauucugcgugauuuuggggcucagcgggaggaagggcggucucguucugaauaccugaaccggcucaagaaggaucuggccauuuacuacuccuauggagacuuccugcuuggcaagcucauggaccucuuc";
+    string seq1 = "gcgagg";
+    string seq2 = "cagac";
+    string seq3 = "caagaacaag";
+    string seq4 = "cagcag";
+    string seq5 = "gggcauuaacccg";
+    string seq6 = "cgccugcguggaacgauucuguccggccgaaagcuaaga";
+    string seq7 = "gcgaggcuagcgcuacccgugcgccugcguggaacgauucuguggcgagugccggccgaaagcuagguccggauugcacguggagggccgcccgaagggcacucucggacauuaacccgcauucuguaccauggggcgcaaguuggacccuacgaaggagaagcgggggccaggccgaaaggcccggaagcagaagggugccgagacagaacucgucagauucuugccugcaguaagugacgaaaauuccaagaggcugucgaaagagcugcucggaagcagaaggcccgggaagcugcugcugggauccaguggagugaagaggagaccgaggacgaggaggaagagaaagaagugaccccugagucaggccccccaaagguggaagaggcagaugggggccugcagaucaauguggaugaggaaccauuugugcugcccccugcuggggagauggagcaggaugcccaggcuccagaccugcaacgaguucacaagcggauccaggauauugugggaauucugcgugauuuuggggcucagcgggaggaagggcggucucguucugaauaccugaaccggcucaagaaggaucuggccauuuacuacuccuauggagacuuccugcuuggcaagcucauggaccucuuc";
+    vector<string> groups{seq, seq0, seq1, seq2, seq3, seq4, seq5, seq6, seq7}; 
+    for (auto s : groups) {
+        compareNussinov(s);
+        cout << endl;
+    }
+//    compareNussinov(seq);
     
     return 0;
 }

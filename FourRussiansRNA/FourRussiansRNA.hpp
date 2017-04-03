@@ -23,7 +23,7 @@ typedef vector<vu> vvu;
 // scoring function
 int scoreB(char a, char b);
 
-void nussinovFourRussians(const string& x);
+double nussinovFourRussians(const string& x);
 string LoadSeq(string file);
 int maxVal(ull x, ull y, const size_t q);
 #endif /* FourRussiansRNA_h */

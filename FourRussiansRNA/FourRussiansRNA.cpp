@@ -29,7 +29,7 @@ int scoreB(char a, char b){
 // preprocessing helper
 int maxVal(ull x, ull y, const size_t q) {
     int max = 0, sum1 = 0, sum2 = 0;
-    for (int k = 0; k < q; k++) {
+    for (int k = int(q-1); k >= 0; k--) {
         if ((x & (1 << k)) != 0) sum1 = sum1 + 1;
         if ((y & (1 << k)) != 0) sum2 = sum2 - 1;
         if (sum1 + sum2 > max) max = sum1 + sum2;
@@ -48,7 +48,7 @@ void debugPrint(vector<vector<double> > &m) {
 }
 
 //Four russians running
-void nussinovFourRussians(const string& x){
+double nussinovFourRussians(const string& x){
     // INITIALIZATION
     size_t n (x.size());
     vector<vector<double>> D (n,vector<double> (n, -1));
@@ -76,72 +76,101 @@ void nussinovFourRussians(const string& x){
     
     // ITERATION
     for (size_t j(0); j < n; ++j){
-//        cout << " n " << n << endl;
+        //        cout << " n " << n << endl;
         //cout << " j " << j << endl;
         for (long int i(j); i >= 0; --i){
-//            cout << " i " << i << endl;
+            //            cout << " i " << i << endl;
             //cout << " j " << j << endl;
             if (j - i <= 0) {
                 D[i][j] = 0;
                 continue;
             }
-            D[i][j] = scoreB(x[i],x[j]) + D[i+1][j-1];
-            if (j == n-4 && i == n-4){
-            cout << " score " <<D[i][j] << endl;
-            }
-            size_t groupI ((i+1)/q);
-            size_t groupJ ((j+1)/q);
+            D[i][j] = max(max(
+                              D[i+1][j],
+                              D[i][j-1]),
+                          scoreB(x[i],x[j]) + D[i+1][j-1]);
+            //            if (j == n-4 && i == n-4){
+            //            cout << " score " <<D[i][j] << endl;
+            //            }
+            size_t groupI ((i)/q);
+            size_t groupJ ((j)/q);
             // the matrix is diagonal so groupI doesn't start always from the same position but from
             // the diagonal
             int nGroupsBetween (int(groupJ - groupI - 1));
             // + q to get right most. -1 to put back in 0 index
-            size_t iI(q*groupI + q - 1);
-            size_t jJ(q*groupJ - 1);
+            size_t iI = min(q*groupI + q - 1, n-1);
+            size_t jJ(q*groupJ);
             //cout << " Ii " << iI << endl;
             
             //cout << "II" << endl;
             // for all cells in the first group
-            for (size_t k(i+1); k <= iI; ++k){
+            for (size_t k(i+1); k < iI; ++k){
                 
-                //cout << " i " << i << " j " << j << " k " << k << endl;
+                //                cout << " i " << i << " j " << j << " k " << k << endl;
+                //                cout << D[i][k-1] + D[k][j] << "a" <<endl;
                 D[i][j] = max (D[i][j], D[i][k-1] + D[k][j]);
             }
             
             //cout << "JJ" << endl;
             //for all cells in last group
-            for (size_t k(jJ); k <= j; ++k){
-                
-                //cout << " i " << i << " j " << j << " k " << k << endl;
+            for (size_t k(jJ+1); k < j; ++k){
+                //                cout << " i " << i << " j " << j << " k " << k << endl;
+                //                if (i == 0 && j == 10) {
+                //                cout << D[i][k-1] + D[k][j] << "c" << endl;
+                //                }
                 D[i][j] = max (D[i][j], D[i][k-1] + D[k][j]);
             }
             
             /*
-            cout << "I " << groupI << endl;
-            cout << "J " << groupJ << endl;
-            cout << "nGroup " << nGroupsBetween << endl;*/
+             cout << "I " << groupI << endl;
+             cout << "J " << groupJ << endl;
+             cout << "nGroup " << nGroupsBetween << endl;*/
             //for all groups in between
             for (int K(0); K < nGroupsBetween; ++K){
                 /*cout << "K " << K << endl;
-                cout << "nGroup " << nGroupsBetween << endl;
-                cout << "K<nGroup " << (K < nGroupsBetween) << endl;*/
+                 cout << "nGroup " << nGroupsBetween << endl;
+                 cout << "K<nGroup " << (K < nGroupsBetween) << endl;*/
                 // take right most element of group I, adds 1 to get left most of next
                 // then adds K*q to shift depedning on the block
                 size_t l(iI + 1 + K*q);
                 //not sure
-                size_t t(l);
-                D[i][j] = max(D[i][j],D[i][l] + D[t][j] + R[hvs[i][K]][vvs[j][K]]);
+                size_t t(l+1);
+//                if (i == 0 && j == 9) {
+//                cout << i << " " << (iI + q*K + 1)/q << endl;
+//                cout << j << " " << t/q << endl;
+//                }
+                ull hdiff = hvs[i][(iI + q*K + 1)/q];
+                ull vdiff = vvs[j][t/q];
+                double maxdiff = R[hdiff][vdiff];
+                double baseH = D[i][l];
+                double baseV = D[t][j];
+                double base = baseH + baseV;
+//                if (i == 0 && j == 9) {
+//                    cout << "i: " << i << " l: " << l << " t: " << t << " j: " << j << " q: " << q << " K: " << K << " nGroupsBetween: " << nGroupsBetween << endl;
+//                    cout << "base H: " << baseH << endl;
+//                    cout << "base V: " << baseV << endl;
+//                    cout << "hdiff: " << bitset<8>(hdiff) << endl;
+//                    cout << "vdiff: " << bitset<8>(vdiff) << endl;
+//                    cout << "maxdiff: " << maxdiff << endl;
+//                }
+                D[i][j] = max(D[i][j], base + maxdiff);
+                
+//                 D[i][j] = max(D[i][j],D[i][l] + D[t][j] + R[hvs[i][K]][vvs[j][K]]);
             }
             
             // compute the vertical difference vector
-            if (i % q == 1) {
+            if (i % q == 1 && i + q <= n) {
                 // compute and store the v¯ vector i/qth group for column j
                 ull vdiff = 0; size_t c = q-2;
                 for (size_t k(i); k < i+q-1; ++k) {
-                    if (D[k-1][j] - D[k][j] == 1) {
+                    if (D[k][j] - D[k+1][j] == 1) {
                         vdiff = (vdiff | (1 << c));
                     }
                     c--;
                 }
+//                cout << "calculating vdiff for " << i << " to " << i+q-1 << ": " << bitset<8>(vdiff) << endl;
+//                cout << "group: " << groupI << "for j: " << j << endl;
+//                cout << "vvs: " << j << " " << groupI << " " << bitset<8>(vdiff) << endl;
                 vvs[j][groupI] = vdiff; // i/qth group for column j
             }
             
@@ -155,16 +184,20 @@ void nussinovFourRussians(const string& x){
                     }
                     c--;
                 }
+//                cout << "calculating hdiff for " << j+1-q << " to " << j << ": " << bitset<8>(hdiff) << endl;
+//                cout << "group: " << groupJ << " for i: "<< i  << endl;
+//                cout << "hvs: " << i << " " << groupJ << " " << bitset<8>(hdiff) << endl;
                 hvs[i][groupJ] = hdiff; // (j − 1)/qth group for row i
             }
-            cout << "i: " <<  i << " j: " << j << endl;
-            debugPrint(D);
+//            cout << "i: " <<  i << " j: " << j << endl;
+//            debugPrint(D);                   
         }
     }
     
-    //cout << D[n][n] << endl;
+//    debugPrint(D);
+//    cout << D[n][n] << endl;
     cout << D[0][n-1] << endl;
-    
+    return D[0][n-1];
     //TRACEBACK
     
 }

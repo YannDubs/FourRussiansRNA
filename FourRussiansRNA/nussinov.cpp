@@ -66,15 +66,18 @@ int foldScoreIterative(const string &seq, vvi &matrix) {
                                     matrix[i][j],
                                     matrix[i][k]+matrix[k+1][j]);
              }
-             cout << "i: " <<  i << " j: " << j << endl;
-             debugPrint(matrix);
+//             cout << "i: " <<  i << " j: " << j << endl;
+//             debugPrint(matrix);
          }
     }
+//    debugPrint(matrix);
     return matrix[0][n-1];
 }
 
-void nussinovScore(const string& x) {
+int nussinovScore(const string& x) {
     size_t n (x.size());
     vvi matrix(n, vi(n, -1));
-    cout << foldScoreIterative(x, matrix) << endl;
+    int score = foldScoreIterative(x, matrix);
+    cout << score << endl;
+    return score;
 }

@@ -17,7 +17,7 @@ using namespace std;
 typedef vector<int> vi;
 typedef vector<vi> vvi;
 
-void nussinovScore(const string& x);
+int nussinovScore(const string& x);
 int foldScore(int i, int j, const string &seq, vvi &matrix);
 int B(char a, char b);
 
