@@ -44,13 +44,14 @@ void compareNussinov(string seq) {
 int main(int argc, const char * argv[]) {
     // string x(LoadSeq("sequence.txt"));
     string seq = "gcgaggcuagcgcuacccgugcgccugcguggaacgauucuguggcgagugccggccgaaagcuagguccggauugcacguggagggccgcccgaagggcacucucggacauuaacccgcauucuguaccauggggcgcaaguuggacccuacgaaggagaagcgggggccaggccgaaaggcccggaagcagaagggugccgagacagaacucgucagauucuugccugcaguaagugacgaaaauuccaagaggcugucuagucgugcucgaaagagggcagccaagaggagauugggcucuguugaagccccuaagacaaauaagucuccugaggccaaaccauugccuggaaagcuaccaaaaggagcuguccagacagcugguaagaagggaccccagucccuauuuaaugcuccucgaggcaagaagcgcccagcaccuggcagugaugaggaagaggaggaggaagacucugaagaagaugguauggugaaccacggggaccucuggggcuccgaggacgaugcugauacgguagaugacuauggagcugacuccaacucugaggaugaggaggaaggugaagcguugcugcccauugaaagagcugcucggaagcagaaggcccgggaagcugcugcugggauccaguggagugaagaggagaccgaggacgaggaggaagagaaagaagugaccccugagucaggccccccaaagguggaagaggcagaugggggccugcagaucaauguggaugaggaaccauuugugcugcccccugcuggggagauggagcaggaugcccaggcuccagaccugcaacgaguucacaagcggauccaggauauugugggaauucugcgugauuuuggggcucagcgggaggaagggcggucucguucugaauaccugaaccggcucaagaaggaucuggccauuuacuacuccuauggagacuuccugcuuggcaagcucauggaccucuuc";
+    string bcyrn1 = "ggccgggcgcgguggcucacgccuguaaucccagcucucagggaggcuaagaggcgggaggauagcuugagcccaggaguucgagaccugccugggcaauauagcgagaccccguucuccagaaaaaggaaaaaaaaaaacaaaagacaaaaaaaaaauaagcguaacuucccucaaagcaacaaccccccccccccuuu";
     string seq1 = "gcgagg";
     string seq2 = "cagac";
     string seq3 = "caagaacaag";
     string seq4 = "cagcag";
     string seq5 = "gggcauuaacccg";
     string seq6 = "cgccugcguggaacgauucuguccggccgaaagcuaaga";
-    vector<string> groups{seq, seq1, seq2, seq3, seq4, seq5, seq6}; 
+    vector<string> groups{seq, bcyrn1, seq1, seq2, seq3, seq4, seq5, seq6}; 
     for (auto s : groups) {
         compareNussinov(s);
         cout << endl;
