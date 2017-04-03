@@ -37,11 +37,21 @@ int maxVal(ull x, ull y, const size_t q) {
     return max;
 }
 
+void debugPrint(vector<vector<double> > &m) {
+    for (int i = 0; i < m.size(); i++) {
+        for (int j = 0; j < m[0].size(); j++) {
+            cout << m[i][j] << "\t";
+        }
+        cout << endl;
+    }
+    cout << endl;
+}
+
 //Four russians running
 void nussinovFourRussians(const string& x){
     // INITIALIZATION
     size_t n (x.size());
-    vector<vector<double>> D (n,vector<double> (n));
+    vector<vector<double>> D (n,vector<double> (n, -1));
     const size_t q (round(log(n)));
     //cout << " q " << q << endl;
     //Index
@@ -66,11 +76,15 @@ void nussinovFourRussians(const string& x){
     
     // ITERATION
     for (size_t j(0); j < n; ++j){
-        //cout << " n " << n << endl;
+//        cout << " n " << n << endl;
         //cout << " j " << j << endl;
-        for (long int i(j-1); i >= 0; --i){
-            //cout << " i " << i << endl;
+        for (long int i(j); i >= 0; --i){
+//            cout << " i " << i << endl;
             //cout << " j " << j << endl;
+            if (j - i <= 0) {
+                D[i][j] = 0;
+                continue;
+            }
             D[i][j] = scoreB(x[i],x[j]) + D[i+1][j-1];
             if (j == n-4 && i == n-4){
             cout << " score " <<D[i][j] << endl;
@@ -143,6 +157,8 @@ void nussinovFourRussians(const string& x){
                 }
                 hvs[i][groupJ] = hdiff; // (j − 1)/qth group for row i
             }
+            cout << "i: " <<  i << " j: " << j << endl;
+            debugPrint(D);
         }
     }
     
