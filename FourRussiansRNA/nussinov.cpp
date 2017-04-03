@@ -61,15 +61,6 @@ int foldScoreIterative(const string &seq, vvi &matrix) {
         }
     }
     
-    cout << endl << "MATRIX : " << endl;
-    for (int i = 0; i < n; i++){
-        cout << "Row number " << i << endl;
-        for (int j = 0; j < n; j++){
-            cout << matrix[i][j] << " ";
-        }
-        cout << endl;
-    }
-    
     return matrix[0][n-1];
 }
 

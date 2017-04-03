@@ -28,28 +28,22 @@ int scoreB(char a, char b){
 
 // preprocessing helper
 int maxVal(ull x, ull y, const size_t q) {
-    int max = -1e5, sum1 = 0, sum2 = 0;
+    int max = 0, sum1 = 0, sum2 = 0;
     for (int k = 0; k < q; k++) {
         if ((x & (1 << k)) != 0) sum1 = sum1 + 1;
-        cout << "SUM1  :" << sum1 << endl;
         if ((y & (1 << k)) != 0) sum2 = sum2 - 1;
-        cout << "SUM2  :" << sum2 << endl;
-        cout << "SUM12  :" << (sum1+sum2) << endl;
         if (sum1 + sum2 > max) max = sum1 + sum2;
     }
-    cout << "MAX  :" << max << endl << endl;
     return max;
-    
 }
 
 //Four russians running
 void nussinovFourRussians(const string& x){
     // INITIALIZATION
-    int n (x.size());
-    vector<vector<int>> D (n,vector<int> (n));
-    const size_t q (2); //(round(log(n)));
+    size_t n (x.size());
+    vector<vector<double>> D (n,vector<double> (n));
+    const size_t q (round(log(n)));
     //cout << " q " << q << endl;
-    //cout << " n " << n << endl;
     //Index
     //vector<vector<size_t>> Index (m,vector<size_t> (n));
     
@@ -71,50 +65,41 @@ void nussinovFourRussians(const string& x){
     
     
     // ITERATION
-    for (int j(0); j < n; ++j){
-        D[j][j] = 0;
-        if (j < n-1){
-            D[j+1][j] =-1;
-        }
+    for (size_t j(0); j < n; ++j){
         //cout << " n " << n << endl;
         //cout << " j " << j << endl;
-        for (int i(j-1); i >= 0; --i){
+        for (long int i(j-1); i >= 0; --i){
             //cout << " i " << i << endl;
             //cout << " j " << j << endl;
             D[i][j] = scoreB(x[i],x[j]) + D[i+1][j-1];
-            int groupI ((i)/q);
-            int groupJ ((j)/q);
-            
-            cout << endl <<   " i " << i << " j " << j << endl << " groupI " << groupI << " groupJ " << groupJ << endl ;
-            
+            if (j == n-4 && i == n-4){
+            cout << " score " <<D[i][j] << endl;
+            }
+            size_t groupI ((i+1)/q);
+            size_t groupJ ((j+1)/q);
             // the matrix is diagonal so groupI doesn't start always from the same position but from
             // the diagonal
             int nGroupsBetween (int(groupJ - groupI - 1));
             // + q to get right most. -1 to put back in 0 index
-            int iI(q*groupI + q - 1);
-            int jJ(q*groupJ );
-            cout << " Ii " << iI << " jJ " << jJ << endl;
-            cout << " nGroup " << nGroupsBetween << endl;
+            size_t iI(q*groupI + q - 1);
+            size_t jJ(q*groupJ - 1);
+            //cout << " Ii " << iI << endl;
             
             //cout << "II" << endl;
             // for all cells in the first group
-            // needs to take min iI and n because last group could have less columns than q
-            for (size_t k(i+1); k <= min(iI,n-1); ++k){
+            for (size_t k(i+1); k <= iI; ++k){
                 
-                //cout << " iI " << iI << " i " << i << " j " << j << " k " << k << endl;
+                //cout << " i " << i << " j " << j << " k " << k << endl;
                 D[i][j] = max (D[i][j], D[i][k-1] + D[k][j]);
             }
             
             //cout << "JJ" << endl;
             //for all cells in last group
-            cout << "D[i][j] before block c: " <<  D[i][j] <<endl;
-            for (int k(jJ); k <= j; ++k){
-                //cout << "D[i][k-1] : " << D[i][k-1] <<endl;
-                //cout << "D[k][j] : " << D[k][j] <<endl;
+            for (size_t k(jJ); k <= j; ++k){
+                
                 //cout << " i " << i << " j " << j << " k " << k << endl;
-                D[i][j] = max(D[i][j], D[i][k-1] + D[k][j]);
+                D[i][j] = max (D[i][j], D[i][k-1] + D[k][j]);
             }
-            cout << "D[i][j] after block c: " <<  D[i][j] <<endl;
             
             /*
             cout << "I " << groupI << endl;
@@ -130,13 +115,8 @@ void nussinovFourRussians(const string& x){
                 size_t l(iI + 1 + K*q);
                 //not sure
                 size_t t(l);
-                cout << " l " << l << " t " << t << endl;
-                cout << "D[i][l] : " << D[i][l]  <<endl;
-                cout << "D[t][j] : " << D[t][j] <<endl;
-                cout << "R[hvs[i][K]][vvs[j][K]] : " << R[hvs[i][K]][vvs[j][K]] <<endl;
                 D[i][j] = max(D[i][j],D[i][l] + D[t][j] + R[hvs[i][K]][vvs[j][K]]);
             }
-            cout <<"D[i][j] after block b : " <<D[i][j] <<endl;;
             
             // compute the vertical difference vector
             if (i % q == 1) {
@@ -166,15 +146,7 @@ void nussinovFourRussians(const string& x){
         }
     }
     
-    cout << endl << "D : " << endl;
-    for (int i = 0; i < n; i++){
-        //cout << "Row number " << i << endl;
-        for (int j = 0; j < n; j++){
-            cout << D[i][j] << " ";
-        }
-        cout << endl;
-    }
-    
+    //cout << D[n][n] << endl;
     cout << D[0][n-1] << endl;
     
     //TRACEBACK
