@@ -1,0 +1,8 @@
+sequence6kbp.txt:
+Description : Homo sapiens BCL2, apoptosis regulator (BCL2), transcript variant alpha, mRNANCBI Reference Sequence: NM_000633.2 6492 bp mRNA
+
+sequence3kbp.txt:
+Desc: ENST00000541778.5  NOP2 nucleolar protein [Source:HGNC Symbol;Acc:HGNC:7867]    (2704 bp) 28S rRNA
+
+sequence11kbp.txt:
+BRCA2-201 ENST00000544455.5 NM_000059              11386 bp    mRNA

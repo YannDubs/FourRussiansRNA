@@ -28,7 +28,7 @@
 		C884768E1E9031BB00CDB8CC /* FourRussiansRNA */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FourRussiansRNA; sourceTree = BUILT_PRODUCTS_DIR; };
 		C88476911E9031BB00CDB8CC /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		C88476981E90339B00CDB8CC /* FourRussiansRNA.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FourRussiansRNA.hpp; sourceTree = "<group>"; };
-		C88476991E9033B300CDB8CC /* FourRussiansRNA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FourRussiansRNA.cpp; sourceTree = "<group>"; };
+		C88476991E9033B300CDB8CC /* FourRussiansRNA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FourRussiansRNA.cpp; path = ../../../../../../../../Desktop/GitHub/FourRussiansRNA/FourRussiansRNA/FourRussiansRNA.cpp; sourceTree = BUILT_PRODUCTS_DIR; };
 		C884769B1E91A70200CDB8CC /* nussinov.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nussinov.cpp; sourceTree = "<group>"; };
 		C884769C1E91A70200CDB8CC /* nussinov.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = nussinov.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -258,6 +258,7 @@
 				C88476971E9031BB00CDB8CC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

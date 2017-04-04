@@ -12,7 +12,7 @@
 #include <math.h>
 
 //CONSTANTS
-const string folder("/Users/yanndubois/Desktop/GitHub/FourRussiansRNA/Data/");
+const string folder("./Data/");
 
 //CODE
 
@@ -27,7 +27,7 @@ int scoreB(char a, char b){
 }
 
 // preprocessing helper
-int maxVal(ull x, ull y, const size_t q) {
+int maxVal(ull x,ull y, const size_t q) {
     int max = 0, sum1 = 0, sum2 = 0;
     for (int k = int(q-1); k >= 0; k--) {
         if ((x & (1 << k)) != 0) sum1 = sum1 + 1;
@@ -48,11 +48,18 @@ void debugPrint(vector<vector<double> > &m) {
 }
 
 //Four russians running
-double nussinovFourRussians(const string& x){
+double nussinovFourRussians(const string& x, const int qParam  ){
     // INITIALIZATION
     size_t n (x.size());
     vector<vector<double>> D (n,vector<double> (n, -1));
-    const size_t q (round(log(n)));
+    size_t q;
+    if (qParam == -1){
+        // uses log base 2
+        // note: log_a(x) = log(x)/log(a)
+        q = round(log(n)/log(2));
+    } else {
+        q = qParam;
+    }
     //Index
     //vector<vector<size_t>> Index (m,vector<size_t> (n));
     
@@ -133,7 +140,7 @@ double nussinovFourRussians(const string& x){
             }                   
         }
     }
-    cout << D[0][n-1] << endl;
+    cout << "Score: " << D[0][n-1] << endl;
     return D[0][n-1];
     //TRACEBACK
 }

@@ -1,0 +1,83 @@
+---
+title: "FourRussiansNussinov"
+author: "Yann Dubois"
+date: "4/3/2017"
+output: html_document
+---
+
+```{r}
+library(tidyr)
+library(ggplot2)
+```
+
+```{r}
+# compare Nussinov and four Russian
+len <- c(200,994,2704,6492)
+timeNussinov <- c(18.449e-3,3.237,68.890,1.30676e+03)
+timeFourRussians <- c(19.123e-3,1.327,20.864,417.328)
+lengthTimeVS <- data.frame(len, "Nussinov" = timeNussinov, "FourRussians" = timeFourRussians)
+lengthTimeVS <- gather(lengthTimeVS, algorithm, time ,-len)
+lengthTimeVS$algorithm <- factor(lengthTimeVS$algorithm)
+
+ggplot(lengthTimeVS,aes(x=len, y = time, colour = algorithm)) +
+  geom_line() +
+  geom_point() +
+  xlim(0,max(lengthTimeVS$len)+100) + 
+  ylim(0,max(lengthTimeVS$time)+10) +
+  theme_minimal() +
+  ggtitle("Nussinov vs Four Russians") +
+  theme(text = element_text(size=14),plot.title = element_text(hjust = 0.5)) + 
+  labs(colour = "Algorithm", x = "Length (bp)", y = "Time (sec)")
+```
+
+```{r}
+# effect of q on four russians
+len <- c(2094,2704,3800,4900,6492)
+time3 <- c(24.251,54.266,147.078,312.529,776.741)
+time4 <- c(18.277,41.083,108.792,228.878,613.784)
+time5 <- c(15.890,31.285,86.175,180.797,463.865)
+time6 <- c(14.061,26.593,72.490,154.039,373.604)
+time7 <- c(12.258,24.092,62.765,140.607,333.085)
+time8 <- c(10.997,21.690,56.710,126.655,294.885)
+time9 <- c(10.510,20.972,52.985,117.582,286.541)
+lengthTimeQ <- data.frame(len, "X3" = time3, "X4" = time4, "X5" = time5,
+                          "X6" = time6, "X7" = time7, "X8" = time8, "X9" = time9)
+lengthTimeQ <- gather(lengthTimeQ, q, time ,-len)
+qLen <- recode(lengthTimeQ$q , "X3" = 3, "X4" = 4, "X5" = 5,
+               "X6" = 6, "X7" = 7, "X8" = 8, "X9" = 9)
+lengthTimeQ$q <- factor(qLen )
+
+ggplot(lengthTimeQ,aes(x=len, y = time, colour = q)) +
+  geom_line() +
+  geom_point() +
+  xlim(2000,max(lengthTimeQ$len)+100) + 
+  ylim(0,max(lengthTimeQ$time)+10) +
+  theme_minimal() +
+  ggtitle("Effect of q on Nussinov Four Russians") +
+  theme(text = element_text(size=14),plot.title = element_text(hjust = 0.5)) + 
+  labs(colour = "Size of q", x = "Length (bp)", y = "Time (sec)")
+```
+
+```{r}
+# effect of base on four russians
+len <- c(200,2704,6492)
+time2 <- c(29.351e-3,17.341,220.021)
+time3 <- c(17.021e-3,23.616,300.072)
+time4 <- c(31.903e-3,32.421,495.326)
+time5 <- c(26.49e-3,40.906,474.392)
+time6 <- c(40.724e-3,51.405,604.727)
+lengthTimeCV <- data.frame(len, "X2" = time2, "X3" = time3, "X5" = time4, "X7" = time5, "X10" = time6)
+lengthTimeCV <- gather(lengthTimeCV, base, time ,-len)
+baseLen <- recode(lengthTimeCV$base ,  "X2" = 2, "X3" = 3, "X5" = 5, "X7" = 7, "X10" = 10)
+lengthTimeCV$base <- factor(baseLen )
+
+ggplot(lengthTimeCV,aes(x=len, y = time, colour = base)) +
+  geom_line() +
+  geom_point() +
+  xlim(0,max(lengthTimeCV$len)+100) + 
+  ylim(0,max(lengthTimeCV$time)+10) + 
+  theme_minimal() +
+  ggtitle("Effect of the base of the log on Nussinov Four Russians") +
+  theme(text = element_text(size=14),plot.title = element_text(hjust = 0.5)) + 
+  labs(colour = "Base", x = "Length (bp)", y = "Time (sec)")
+```

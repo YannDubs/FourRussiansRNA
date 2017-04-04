@@ -75,6 +75,6 @@ int nussinovScore(const string& x) {
     size_t n (x.size());
     vvi matrix(n, vi(n, -1));
     int score = foldScoreIterative(x, matrix);
-    cout << score << endl;
+    cout << "Score: " <<score << endl;
     return score;
 }
