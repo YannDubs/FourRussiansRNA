@@ -9,3 +9,9 @@ The algorithm was implemented in c++. We've also implemented Nussinov algorithm 
 
 ## Code
 The code can be found [here](https://github.com/YannDubs/FourRussiansRNA/tree/master/FourRussiansRNA) simply compile and run. Note that you can specify the files containing the sequences in the main().
+
+## Results
+Here are the 2 plots we generated:
+
+![](Results/NussinovVSRussians.png)
+![](Results/effectQrussians.png)
